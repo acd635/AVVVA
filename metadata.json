@@ -1,0 +1,6 @@
+{
+  "name": "AVA Jewelry - Luxury Fine Jewelry",
+  "description": "Ultra-modern luxury jewelry store and showcase for AVA Fine Jewelry, featuring precious gemstones, gold, rose enamel pearls, custom handcrafted collections, and interactive showcase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

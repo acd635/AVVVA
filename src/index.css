@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --font-montserrat: 'Montserrat', 'Noto Sans Georgian', sans-serif;
+  --font-inter: 'Inter', 'Noto Sans Georgian', sans-serif;
+  --font-georgian: 'Noto Sans Georgian', sans-serif;
+  --font-serif: 'Montserrat', 'Noto Sans Georgian', sans-serif;
+  --font-sans: 'Inter', 'Noto Sans Georgian', sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', 'Noto Sans Georgian', sans-serif;
+    font-weight: 400;
+  }
+}
