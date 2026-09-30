@@ -3,6 +3,7 @@ import { ArrowLeft, Filter, Sparkles, Search, ShoppingBag, Heart, ShieldCheck, A
 import { Language, Category, Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { Footer } from './Footer';
+import { getProductTitle } from '../utils/translations';
 
 interface CatalogPageProps {
   lang: Language;
@@ -48,12 +49,16 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  useEffect(() => {
+    setSelectedCategory(initialCategory);
+  }, [initialCategory]);
+
   const categories = [
-    { id: 'all', labelKA: 'ყველა ნამუშევარი', labelEN: 'All Creations' },
-    { id: 'rings', labelKA: 'ბეჭდები', labelEN: 'Rings' },
-    { id: 'earrings', labelKA: 'საყურეები', labelEN: 'Earrings' },
-    { id: 'necklaces', labelKA: 'ყელსაბამები', labelEN: 'Necklaces' },
-    { id: 'bracelets', labelKA: 'სამაჯური', labelEN: 'Bracelets' },
+    { id: 'all', labelKA: 'ყველა ნამუშევარი', labelEN: 'All Creations', labelRU: 'Все изделия' },
+    { id: 'rings', labelKA: 'ბეჭედი', labelEN: 'Rings', labelRU: 'Кольца' },
+    { id: 'earrings', labelKA: 'საყურეები', labelEN: 'Earrings', labelRU: 'Серьги' },
+    { id: 'necklaces', labelKA: 'ყელსაბამები', labelEN: 'Necklaces', labelRU: 'Колье' },
+    { id: 'bracelets', labelKA: 'სამაჯური', labelEN: 'Bracelets', labelRU: 'Браслеты' },
   ];
 
   const filteredProducts = useMemo(() => {
@@ -99,15 +104,15 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
       result = [...result].sort((a, b) => a.priceGEL - b.priceGEL);
     } else if (sortBy === 'name-asc') {
       result = [...result].sort((a, b) => {
-        const titleA = lang === 'KA' ? a.titleKA : a.titleEN;
-        const titleB = lang === 'KA' ? b.titleKA : b.titleEN;
-        return titleA.localeCompare(titleB, lang === 'KA' ? 'ka' : 'en');
+        const titleA = getProductTitle(a, lang);
+        const titleB = getProductTitle(b, lang);
+        return titleA.localeCompare(titleB, lang === 'KA' ? 'ka' : lang === 'RU' ? 'ru' : 'en');
       });
     } else if (sortBy === 'name-desc') {
       result = [...result].sort((a, b) => {
-        const titleA = lang === 'KA' ? a.titleKA : a.titleEN;
-        const titleB = lang === 'KA' ? b.titleKA : b.titleEN;
-        return titleB.localeCompare(titleA, lang === 'KA' ? 'ka' : 'en');
+        const titleA = getProductTitle(a, lang);
+        const titleB = getProductTitle(b, lang);
+        return titleB.localeCompare(titleA, lang === 'KA' ? 'ka' : lang === 'RU' ? 'ru' : 'en');
       });
     }
 
@@ -127,27 +132,35 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
               onClick={onBackToHome}
               className="px-4 py-2 rounded-full border border-slate-300 hover:border-slate-900 text-slate-700 hover:text-slate-900 font-montserrat font-medium text-xs uppercase tracking-wider transition-all flex items-center justify-center group cursor-pointer bg-white"
             >
-              <span>{lang === 'KA' ? 'მთავარი გვერდი' : 'Home'}</span>
+              <span>{lang === 'KA' ? 'მთავარი გვერდი' : lang === 'RU' ? 'Главная' : 'Home'}</span>
             </button>
           </div>
 
-          {/* Controls: Search, Wishlist, Cart, Language */}
-          <div className="flex items-center gap-3">
-            {/* Language Toggle */}
-            <button
-              onClick={() => onLanguageChange(lang === 'KA' ? 'EN' : 'KA')}
-              className="p-2.5 rounded-full border border-slate-200 bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer flex items-center justify-center"
-              title={lang === 'KA' ? 'Switch to English' : 'გადართე ქართულზე'}
-              aria-label="Language Switcher"
-            >
-              <Globe className="w-4 h-4" />
-            </button>
+          {/* Controls: 3-Language Selector, Search, Wishlist, Cart */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* 3-Language Selector */}
+            <div className="flex items-center bg-white rounded-full p-0.5 border border-slate-200 shadow-sm">
+              {(['KA', 'EN', 'RU'] as const).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => onLanguageChange(l)}
+                  className={`px-2 py-1 text-[11px] font-montserrat font-bold rounded-full transition-all cursor-pointer ${
+                    lang === l
+                      ? 'bg-slate-900 text-sky-300 shadow-sm font-extrabold'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  }`}
+                  title={l === 'KA' ? 'ქართული' : l === 'RU' ? 'Русский' : 'English'}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
 
             {/* Search */}
             <button
               onClick={onOpenSearch}
               className="p-2.5 rounded-full border border-slate-200 bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-              title={lang === 'KA' ? 'ძებნა' : 'Search'}
+              title={lang === 'KA' ? 'ძებნა' : lang === 'RU' ? 'Поиск' : 'Search'}
             >
               <Search className="w-4 h-4" />
             </button>
@@ -156,7 +169,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
             <button
               onClick={onOpenWishlist}
               className="relative p-2.5 rounded-full border border-slate-200 bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-              title={lang === 'KA' ? 'სურვილების სია' : 'Wishlist'}
+              title={lang === 'KA' ? 'სურვილების სია' : lang === 'RU' ? 'Список желаний' : 'Wishlist'}
             >
               <Heart className="w-4 h-4" />
               {wishlistCount > 0 && (
@@ -172,7 +185,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
               className="relative px-4 py-2 rounded-full bg-slate-900 hover:bg-sky-600 text-white font-montserrat font-medium text-xs uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm"
             >
               <ShoppingBag className="w-4 h-4 text-sky-300" />
-              <span>{lang === 'KA' ? 'კალათა' : 'Bag'}</span>
+              <span>{lang === 'KA' ? 'კალათა' : lang === 'RU' ? 'Корзина' : 'Bag'}</span>
               {cartCount > 0 && (
                 <span className="bg-sky-400 text-slate-950 font-bold text-[10px] px-1.5 py-0.5 rounded-full">
                   {cartCount}
@@ -192,13 +205,15 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <h1 className="text-3xl sm:text-5xl font-montserrat font-light tracking-[0.08em] text-slate-900">
-                {lang === 'KA' ? 'სამკაულების საცავი' : 'The Jewelry Vault'}
+                {lang === 'KA' ? 'სამკაულების საცავი' : lang === 'RU' ? 'Сокровищница украшений' : 'The Jewelry Vault'}
               </h1>
             </div>
 
             <div className="text-slate-500 text-xs font-montserrat uppercase tracking-wider">
               {lang === 'KA'
                 ? `სულ: ${filteredProducts.length} ნამუშევარი`
+                : lang === 'RU'
+                ? `Всего: ${filteredProducts.length} изделий`
                 : `Total: ${filteredProducts.length} Items`}
             </div>
           </div>
@@ -213,7 +228,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
               type="text"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
-              placeholder={lang === 'KA' ? 'ძებნა კატალოგში...' : 'Search in catalog...'}
+              placeholder={lang === 'KA' ? 'ძებნა კატალოგში...' : lang === 'RU' ? 'Поиск в каталоге...' : 'Search in catalog...'}
               className="w-full pl-10 pr-4 py-2.5 rounded-full border border-slate-200 bg-white text-xs font-inter focus:outline-none focus:border-sky-500 shadow-sm"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -234,7 +249,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
                       : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
-                  {lang === 'KA' ? cat.labelKA : cat.labelEN}
+                  {lang === 'KA' ? cat.labelKA : lang === 'RU' ? cat.labelRU : cat.labelEN}
                 </button>
               ))}
             </div>
@@ -246,9 +261,9 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
                 onChange={(e) => setSortBy(e.target.value as any)}
                 className="pl-9 pr-8 py-2.5 rounded-full border border-slate-200 bg-white text-xs font-montserrat font-medium text-slate-700 focus:outline-none focus:border-sky-500 shadow-sm appearance-none cursor-pointer"
               >
-                <option value="default">{lang === 'KA' ? 'სტანდარტული' : 'Standard'}</option>
-                <option value="price-asc">{lang === 'KA' ? 'ფასი ზრდადი' : 'Price: Low to High'}</option>
-                <option value="price-desc">{lang === 'KA' ? 'ფასი კლებადი' : 'Price: High to Low'}</option>
+                <option value="default">{lang === 'KA' ? 'სტანდარტული' : lang === 'RU' ? 'По умолчанию' : 'Standard'}</option>
+                <option value="price-asc">{lang === 'KA' ? 'ფასი ზრდადი' : lang === 'RU' ? 'Сначала дешевле' : 'Price: Low to High'}</option>
+                <option value="price-desc">{lang === 'KA' ? 'ფასი კლებადი' : lang === 'RU' ? 'Сначала дороже' : 'Price: High to Low'}</option>
               </select>
               <ArrowUpDown className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
@@ -279,9 +294,13 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
               {products.length === 0
                 ? (lang === 'KA'
                     ? 'კატალოგი ცარიელია. მზად არის ახალი პროდუქტების დასამატებლად.'
+                    : lang === 'RU'
+                    ? 'Каталог пуст. Готов к добавлению новых изделий.'
                     : 'The catalog is empty. Ready for new products to be added.')
                 : (lang === 'KA'
                     ? 'ამ კატეგორიაში ნამუშევრები არ მოიძებნა'
+                    : lang === 'RU'
+                    ? 'В этой категории изделий не найдено'
                     : 'No items found in this category')}
             </p>
             {products.length > 0 && (
@@ -292,7 +311,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
                 }}
                 className="px-4 py-2 text-xs font-montserrat text-sky-600 hover:underline uppercase tracking-wider"
               >
-                {lang === 'KA' ? 'ფილტრის გასუფთავება' : 'Reset Filters'}
+                {lang === 'KA' ? 'ფილტრის გასუფთავება' : lang === 'RU' ? 'Сбросить фильтры' : 'Reset Filters'}
               </button>
             )}
           </div>
@@ -305,14 +324,14 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({
             className="px-8 py-3.5 bg-slate-900 hover:bg-sky-600 text-white font-montserrat font-medium text-xs uppercase tracking-[0.15em] rounded-full shadow-lg transition-all flex items-center gap-2 group cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>{lang === 'KA' ? 'დაბრუნება მთავარ გვერდზე' : 'Return to Home Page'}</span>
+            <span>{lang === 'KA' ? 'დაბრუნება მთავარ გვერდზე' : lang === 'RU' ? 'Вернуться на главную' : 'Return to Home Page'}</span>
           </button>
 
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="text-xs font-montserrat font-medium text-slate-500 hover:text-slate-900 uppercase tracking-wider transition-colors"
           >
-            {lang === 'KA' ? '↑ ზევით დაბრუნება' : '↑ Back to Top'}
+            {lang === 'KA' ? '↑ ზევით დაბრუნება' : lang === 'RU' ? '↑ Наверх' : '↑ Back to Top'}
           </button>
         </div>
 

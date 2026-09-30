@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Heart, ShoppingBag, Sparkles, Check } from 'lucide-react';
 import { Language, Product } from '../types';
+import { getProductTitle, getProductDescription } from '../utils/translations';
 
 interface ProductCardProps {
   product: Product;
@@ -83,7 +84,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               ? 'bg-rose-500 text-white shadow-md scale-110'
               : 'bg-white/80 text-slate-600 hover:text-rose-500 hover:bg-white border border-slate-200'
           }`}
-          title={lang === 'KA' ? 'სურვილებში დამატება' : 'Add to Wishlist'}
+          title={lang === 'KA' ? 'სურვილებში დამატება' : lang === 'RU' ? 'В избранное' : 'Add to Wishlist'}
         >
           <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
         </button>
@@ -96,11 +97,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <div className="h-4 mb-1" />
 
           <h3 className="font-montserrat font-medium text-sm sm:text-base text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-2 min-h-[2.5rem]">
-            {lang === 'KA' ? product.titleKA : product.titleEN}
+            {getProductTitle(product, lang)}
           </h3>
 
           <p className="text-xs text-slate-600 font-inter font-normal leading-relaxed line-clamp-2 mt-1">
-            {lang === 'KA' ? product.descriptionKA : product.descriptionEN}
+            {getProductDescription(product, lang)}
           </p>
         </div>
 
@@ -117,12 +118,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {added ? (
               <>
                 <Check className="w-3.5 h-3.5" />
-                <span>{lang === 'KA' ? 'დაემატა' : 'Added'}</span>
+                <span>{lang === 'KA' ? 'დაემატა' : lang === 'RU' ? 'Добавлено' : 'Added'}</span>
               </>
             ) : (
               <>
                 <ShoppingBag className="w-3.5 h-3.5" />
-                <span>{lang === 'KA' ? 'კალათაში დამატება' : 'Add to Bag'}</span>
+                <span>{lang === 'KA' ? 'კალათაში დამატება' : lang === 'RU' ? 'В корзину' : 'Add to Bag'}</span>
               </>
             )}
           </button>

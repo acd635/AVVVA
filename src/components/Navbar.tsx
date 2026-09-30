@@ -32,16 +32,23 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const t = {
-    collections: lang === 'KA' ? 'კოლექციები' : 'Collections',
-    certificates: lang === 'KA' ? 'სერტიფიკატები' : 'Certificates',
-    about: lang === 'KA' ? 'ჩვენს შესახებ' : 'About AVA',
-    contact: lang === 'KA' ? 'კონტაქტი' : 'Contact',
-    tagline: lang === 'KA' ? 'ექსკლუზიური ძვირფასი ქვები' : 'FINE PRECIOUS GEMSTONES',
+    collections: lang === 'KA' ? 'კოლექციები' : lang === 'RU' ? 'Коллекции' : 'Collections',
+    certificates: lang === 'KA' ? 'სერტიფიკატები' : lang === 'RU' ? 'Сертификаты' : 'Certificates',
+    about: lang === 'KA' ? 'ჩვენს შესახებ' : lang === 'RU' ? 'О бренде' : 'About AVA',
+    contact: lang === 'KA' ? 'კონტაქტი' : lang === 'RU' ? 'Контакты' : 'Contact',
+    tagline:
+      lang === 'KA'
+        ? 'ექსკლუზიური ძვირფასი ქვები'
+        : lang === 'RU'
+        ? 'ЭКСКЛЮЗИВНЫЕ ДРАГОЦЕННЫЕ КАМНИ'
+        : 'FINE PRECIOUS GEMSTONES',
     heroTitleEN: 'NATURAL BEAUTY\nYOUR NATURAL CHOICE',
     heroTitleKA: 'ბუნებრივი სილამაზე\nშენი ბუნებრივი არჩევანი',
+    heroTitleRU: 'ЕСТЕСТВЕННАЯ КРАСОТА\nТВОЙ ЕСТЕСТВЕННЫЙ ВЫБОР',
     subTextEN: 'Exquisite jewelry crafted with natural gemstones, hand-enameled roses, baroque pearls, and certified precious stones by master artisans',
     subTextKA: 'ბუნებრივი ქვებისა და ხელნაკეთი ოსტატობის სინთეზი, შექმნილი დახვეწილი გემოვნებისთვის',
-    explore: lang === 'KA' ? 'შეარჩიე შენი სამკაული' : 'Choose Your Jewelry',
+    subTextRU: 'Синтез натуральных камней и ручного мастерства, созданный для утонченного вкуса',
+    explore: lang === 'KA' ? 'შეარჩიე შენი სამკაული' : lang === 'RU' ? 'Выбрать украшение' : 'Choose Your Jewelry',
   };
 
   const navItems = [
@@ -90,7 +97,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="flex items-center justify-center cursor-pointer group py-0 overflow-visible mx-auto lg:mx-0"
               >
                 <img
-                  src="https://i.postimg.cc/7P7GVBMx/Main-Logo-SVG-AVA.png"
+                  src="https://i.postimg.cc/RV3pPN5T/Main-Logo-SVG-AVA.png"
                   alt="AVA Jewelry"
                   className="h-28 sm:h-36 md:h-44 lg:h-52 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-2xl -mt-2 sm:-mt-4 lg:-ml-3"
                   referrerPolicy="no-referrer"
@@ -104,10 +111,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Hero Text centered on mobile */}
             <div className="space-y-5 text-center lg:text-left my-auto py-2 -translate-y-2 sm:-translate-y-4 lg:-translate-y-6">
               <h1 className="text-2xl sm:text-4xl lg:text-5xl font-montserrat font-light uppercase tracking-[0.12em] text-white drop-shadow-lg leading-tight whitespace-pre-line text-center lg:text-left">
-                {lang === 'KA' ? t.heroTitleKA : t.heroTitleEN}
+                {lang === 'KA' ? t.heroTitleKA : lang === 'RU' ? t.heroTitleRU : t.heroTitleEN}
               </h1>
               <p className="text-slate-200 text-sm sm:text-lg font-inter font-normal leading-relaxed drop-shadow-md max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
-                {lang === 'KA' ? t.subTextKA : t.subTextEN}
+                {lang === 'KA' ? t.subTextKA : lang === 'RU' ? t.subTextRU : t.subTextEN}
               </p>
             </div>
 
@@ -129,47 +136,57 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="lg:col-span-4 xl:col-span-3 flex flex-col justify-stretch items-center lg:items-end">
             <div className="bg-sky-400/05 backdrop-blur-sm border border-sky-300/20 rounded-2xl p-3 sm:p-4 shadow-2xl flex flex-col items-center lg:items-end justify-between h-full w-full max-w-xs lg:max-w-[210px] mx-auto lg:ml-auto lg:mr-0 gap-6">
               
-              {/* Top Row: Language, Wishlist, and Cart Icons Centered in the Box Header */}
-              <div className="flex items-center justify-center gap-4 pb-2 w-full">
-                {/* Language Switcher Icon */}
-                <button
-                  onClick={() => onLanguageChange(lang === 'KA' ? 'EN' : 'KA')}
-                  className="p-2 text-white hover:text-sky-300 transition-colors cursor-pointer flex items-center justify-center rounded-full hover:bg-white/10"
-                  title={lang === 'KA' ? 'Switch to English' : 'გადართე ქართულზე'}
-                  aria-label="Language Switcher"
-                >
-                  <Globe className="w-5 h-5" />
-                </button>
+              {/* Top Row: Language Selector, Wishlist, and Cart Icons Centered in the Box Header */}
+              <div className="flex items-center justify-between gap-1.5 sm:gap-2 pb-2 w-full">
+                {/* 3-Language Selector */}
+                <div className="flex items-center bg-black/30 backdrop-blur-md rounded-xl p-0.5 border border-white/20 shadow-inner">
+                  {(['KA', 'EN', 'RU'] as const).map((l) => (
+                    <button
+                      key={l}
+                      onClick={() => onLanguageChange(l)}
+                      className={`px-1.5 py-0.5 sm:px-2 sm:py-1 text-[10px] sm:text-[11px] font-montserrat font-bold tracking-wider rounded-lg transition-all cursor-pointer ${
+                        lang === l
+                          ? 'bg-sky-400 text-slate-950 shadow-md font-extrabold scale-105'
+                          : 'text-white/80 hover:text-white hover:bg-white/10'
+                      }`}
+                      title={l === 'KA' ? 'ქართული' : l === 'RU' ? 'Русский' : 'English'}
+                    >
+                      {l}
+                    </button>
+                  ))}
+                </div>
 
-                {/* Wishlist Icon */}
-                <button
-                  onClick={onOpenWishlist}
-                  className="p-2 text-white hover:text-sky-300 transition-colors cursor-pointer flex items-center justify-center rounded-full hover:bg-white/10 relative"
-                  title={lang === 'KA' ? 'სურვილების სია' : 'Wishlist'}
-                  aria-label="Wishlist"
-                >
-                  <Heart className="w-5 h-5" />
-                  {wishlistCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-sky-400 text-slate-950 text-[10px] font-montserrat font-bold rounded-full flex items-center justify-center shadow">
-                      {wishlistCount}
-                    </span>
-                  )}
-                </button>
+                <div className="flex items-center gap-1 sm:gap-1.5">
+                  {/* Wishlist Icon */}
+                  <button
+                    onClick={onOpenWishlist}
+                    className="p-1.5 sm:p-2 text-white hover:text-sky-300 transition-colors cursor-pointer flex items-center justify-center rounded-full hover:bg-white/10 relative"
+                    title={lang === 'KA' ? 'სურვილების სია' : lang === 'RU' ? 'Список желаний' : 'Wishlist'}
+                    aria-label="Wishlist"
+                  >
+                    <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
+                    {wishlistCount > 0 && (
+                      <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-4.5 sm:h-4.5 bg-sky-400 text-slate-950 text-[9px] sm:text-[10px] font-montserrat font-bold rounded-full flex items-center justify-center shadow">
+                        {wishlistCount}
+                      </span>
+                    )}
+                  </button>
 
-                {/* Cart Drawer Icon */}
-                <button
-                  onClick={onOpenCart}
-                  className="p-2 text-white hover:text-sky-300 transition-colors cursor-pointer flex items-center justify-center rounded-full hover:bg-white/10 relative"
-                  title={lang === 'KA' ? 'კალათა' : 'Shopping Cart'}
-                  aria-label="Shopping Cart"
-                >
-                  <ShoppingBag className="w-5 h-5" />
-                  {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-white text-slate-950 text-[10px] font-montserrat font-bold rounded-full flex items-center justify-center shadow">
-                      {cartCount}
-                    </span>
-                  )}
-                </button>
+                  {/* Cart Drawer Icon */}
+                  <button
+                    onClick={onOpenCart}
+                    className="p-1.5 sm:p-2 text-white hover:text-sky-300 transition-colors cursor-pointer flex items-center justify-center rounded-full hover:bg-white/10 relative"
+                    title={lang === 'KA' ? 'კალათა' : lang === 'RU' ? 'Корзина' : 'Shopping Cart'}
+                    aria-label="Shopping Cart"
+                  >
+                    <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-4.5 sm:h-4.5 bg-white text-slate-950 text-[9px] sm:text-[10px] font-montserrat font-bold rounded-full flex items-center justify-center shadow">
+                        {cartCount}
+                      </span>
+                    )}
+                  </button>
+                </div>
               </div>
 
               {/* Vertical Navigation Links */}
@@ -210,7 +227,31 @@ export const Navbar: React.FC<NavbarProps> = ({
             ))}
           </div>
 
-          <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-white">
+          {/* Mobile Language Switcher */}
+          <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span className="text-xs text-slate-300 font-montserrat uppercase tracking-wider">
+              {lang === 'KA' ? 'ენა' : lang === 'RU' ? 'Язык' : 'Language'}
+            </span>
+            <div className="flex items-center gap-1 bg-black/40 rounded-xl p-1 border border-white/15">
+              {(['KA', 'EN', 'RU'] as const).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => {
+                    onLanguageChange(l);
+                  }}
+                  className={`px-3 py-1 text-xs font-montserrat font-bold rounded-lg transition-all ${
+                    lang === l
+                      ? 'bg-sky-400 text-slate-950 shadow-md font-extrabold'
+                      : 'text-white/80 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {l === 'KA' ? 'GEO' : l === 'RU' ? 'RUS' : 'ENG'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-white">
             <span>{t.tagline}</span>
             <a href="tel:+995322000000" className="text-white hover:text-sky-300 transition-colors">
               +995 32 200 00 00

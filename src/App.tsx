@@ -16,13 +16,26 @@ import { Footer } from './components/Footer';
 import { PRODUCTS } from './data/products';
 import { Language, Category, GemstoneType, Product, CartItem } from './types';
 import { Sparkles, Filter, Gem, Check, ArrowRight } from 'lucide-react';
+import { getProductTitle } from './utils/translations';
 
 export default function App() {
-  const [lang, setLang] = useState<Language>('KA');
+  const [lang, setLang] = useState<Language>(() => {
+    try {
+      const saved = localStorage.getItem('ava_lang');
+      if (saved === 'KA' || saved === 'EN' || saved === 'RU') return saved;
+    } catch (e) {}
+    return 'KA';
+  });
   const [currentTab, setCurrentTab] = useState('collections');
   const [selectedCategory, setSelectedCategory] = useState<Category>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showFullCatalog, setShowFullCatalog] = useState(false);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('ava_lang', lang);
+    } catch (e) {}
+  }, [lang]);
 
   // Dynamic Products State initialized directly from PRODUCTS to ensure instant updates
   const [products, setProducts] = useState<Product[]>(() => {
@@ -93,6 +106,8 @@ export default function App() {
     showToast(
       lang === 'KA'
         ? `„${newProduct.titleKA}“ წარმატებით დაემატა!`
+        : lang === 'RU'
+        ? `«${getProductTitle(newProduct, 'RU')}» успешно добавлено!`
         : `Added "${newProduct.titleEN}" to catalog!`
     );
   };
@@ -102,18 +117,18 @@ export default function App() {
       prev.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
     );
     showToast(
-      lang === 'KA' ? 'პროდუქტის ინფორმაცია განახლდა' : 'Product updated'
+      lang === 'KA' ? 'პროდუქტის ინფორმაცია განახლდა' : lang === 'RU' ? 'Информация о товаре обновлена' : 'Product updated'
     );
   };
 
   const handleDeleteProduct = (productId: string) => {
     setProducts((prev) => prev.filter((p) => p.id !== productId));
-    showToast(lang === 'KA' ? 'პროდუქტი წაიშალა' : 'Product deleted');
+    showToast(lang === 'KA' ? 'პროდუქტი წაიშალა' : lang === 'RU' ? 'Товар удален' : 'Product deleted');
   };
 
   const handleResetProducts = () => {
     setProducts(PRODUCTS);
-    showToast(lang === 'KA' ? 'კატალოგი აღდგა საწყისზე' : 'Catalog reset to default');
+    showToast(lang === 'KA' ? 'კატალოგი აღდგა საწყისზე' : lang === 'RU' ? 'Каталог сброшен к исходному' : 'Catalog reset to default');
   };
 
   // Cart Handlers
@@ -143,6 +158,8 @@ export default function App() {
     showToast(
       lang === 'KA'
         ? `„${product.titleKA}“ დაემატა კალათაში`
+        : lang === 'RU'
+        ? `«${getProductTitle(product, 'RU')}» добавлено в корзину`
         : `Added "${product.titleEN}" to your shopping bag`
     );
   };
@@ -152,12 +169,20 @@ export default function App() {
       const exists = prev.some((p) => p.id === product.id);
       if (exists) {
         showToast(
-          lang === 'KA' ? 'ამოიღეს სურვილების სიიდან' : 'Removed from saved favorites'
+          lang === 'KA'
+            ? 'ამოიღეს სურვილების სიიდან'
+            : lang === 'RU'
+            ? 'Удалено из списка желаний'
+            : 'Removed from saved favorites'
         );
         return prev.filter((p) => p.id !== product.id);
       } else {
         showToast(
-          lang === 'KA' ? 'შენახულია სურვილების სიაში' : 'Saved to your favorites'
+          lang === 'KA'
+            ? 'შენახულია სურვილების სიაში'
+            : lang === 'RU'
+            ? 'Сохранено в список желаний'
+            : 'Saved to your favorites'
         );
         return [...prev, product];
       }
@@ -204,12 +229,29 @@ export default function App() {
     });
   }, [products, selectedCategory]);
 
+  // Displayed products on home page: exactly 8 shuffled for 'all', exactly 4 for specific categories
+  const displayedHomeProducts = useMemo(() => {
+    if (selectedCategory === 'all') {
+      // Deterministic shuffle across all products to display 8 items mixed/shuffled ("არეულად")
+      const arr = [...products];
+      let seed = 42;
+      for (let i = arr.length - 1; i > 0; i--) {
+        seed = (seed * 9301 + 49297) % 233280;
+        const j = Math.floor((seed / 233280) * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr.slice(0, 8);
+    }
+    // Specific category (e.g. rings, earrings, necklaces, bracelets): exactly 4 items
+    return filteredProducts.slice(0, 4);
+  }, [products, selectedCategory, filteredProducts]);
+
   const categories = [
-    { id: 'all', labelKA: 'ყველა', labelEN: 'All' },
-    { id: 'rings', labelKA: 'ბეჭდები', labelEN: 'Rings' },
-    { id: 'earrings', labelKA: 'საყურე', labelEN: 'Earrings' },
-    { id: 'necklaces', labelKA: 'ყელსაბამი', labelEN: 'Necklace' },
-    { id: 'bracelets', labelKA: 'სამაჯური', labelEN: 'Bracelets' },
+    { id: 'all', labelKA: 'ყველა', labelEN: 'All', labelRU: 'Все' },
+    { id: 'rings', labelKA: 'ბეჭედი', labelEN: 'Rings', labelRU: 'Кольца' },
+    { id: 'earrings', labelKA: 'საყურე', labelEN: 'Earrings', labelRU: 'Серьги' },
+    { id: 'necklaces', labelKA: 'ყელსაბამი', labelEN: 'Necklace', labelRU: 'Колье' },
+    { id: 'bracelets', labelKA: 'სამაჯური', labelEN: 'Bracelets', labelRU: 'Браслеты' },
   ];
 
   const signatureProducts = products.filter((p) => p.isSignatureProduct);
@@ -343,7 +385,7 @@ export default function App() {
         <div className="space-y-6">
           <div className="border-b border-slate-200 pb-6">
             <h2 className="text-3xl sm:text-4xl font-montserrat font-light tracking-[0.08em] text-slate-900">
-              {lang === 'KA' ? 'სამკაულების საცავი' : 'The Jewelry Vault'}
+              {lang === 'KA' ? 'სამკაულების საცავი' : lang === 'RU' ? 'Сокровищница украшений' : 'The Jewelry Vault'}
             </h2>
           </div>
 
@@ -359,16 +401,16 @@ export default function App() {
                     : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
-                {lang === 'KA' ? cat.labelKA : cat.labelEN}
+                {lang === 'KA' ? cat.labelKA : lang === 'RU' ? cat.labelRU : cat.labelEN}
               </button>
             ))}
           </div>
         </div>
 
         {/* Product Cards Grid */}
-        {filteredProducts.length > 0 ? (
+        {displayedHomeProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
+            {displayedHomeProducts.map((product) => (
               <div key={product.id}>
                 <ProductCard
                   product={product}
@@ -388,9 +430,13 @@ export default function App() {
               {products.length === 0
                 ? (lang === 'KA'
                     ? 'კატალოგი ცარიელია. მზად არის ახალი პროდუქტების დასამატებლად.'
+                    : lang === 'RU'
+                    ? 'Каталог пуст. Готов к добавлению новых изделий.'
                     : 'The catalog is empty. Ready for new products to be added.')
                 : (lang === 'KA'
                     ? 'ამ კატეგორიაში ნამუშევრები არ მოიძებნა'
+                    : lang === 'RU'
+                    ? 'В этой категории изделий не найдено'
                     : 'No items found in this category')}
             </p>
             {products.length > 0 && (
@@ -398,7 +444,7 @@ export default function App() {
                 onClick={() => setSelectedCategory('all')}
                 className="px-4 py-2 text-xs font-montserrat text-sky-600 hover:underline uppercase tracking-wider cursor-pointer"
               >
-                {lang === 'KA' ? 'ყველა ნამუშევრის ნახვა' : 'View All Creations'}
+                {lang === 'KA' ? 'ყველა ნამუშევრის ნახვა' : lang === 'RU' ? 'Смотреть все изделия' : 'View All Creations'}
               </button>
             )}
           </div>
@@ -413,7 +459,7 @@ export default function App() {
             }}
             className="px-8 py-3.5 bg-slate-900 hover:bg-sky-600 text-white font-montserrat font-medium text-xs uppercase tracking-[0.15em] rounded-full shadow-lg transition-all inline-flex items-center gap-2.5 group cursor-pointer transform hover:-translate-y-0.5"
           >
-            <span>{lang === 'KA' ? 'სრული საცავი' : 'Full Vault'}</span>
+            <span>{lang === 'KA' ? 'სრული საცავი' : lang === 'RU' ? 'Полный каталог' : 'Full Vault'}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-sky-300" />
           </button>
         </div>

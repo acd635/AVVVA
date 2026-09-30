@@ -30,6 +30,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ lang }) => {
               <p className="text-xs font-inter font-normal text-white leading-relaxed">
                 {lang === 'KA'
                   ? '"ბუნებრივი სილამაზე შენი ბუნებრივი არჩევანი"'
+                  : lang === 'RU'
+                  ? '"Естественная красота — твой естественный выбор"'
                   : '"Natural Beauty, Your Natural Choice"'}
               </p>
             </div>
@@ -41,12 +43,16 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ lang }) => {
           <h2 className="text-3xl sm:text-4xl font-montserrat font-light tracking-[0.08em] text-slate-900 leading-tight">
             {lang === 'KA'
               ? 'ბუნებრივი ქვებით შექმნილი სილამაზე დახვეწილი გემოვნებისთვის'
+              : lang === 'RU'
+              ? 'Красота натуральных камней для утонченного вкуса'
               : 'Enduring Elegance Crafted with Natural Gemstones'}
           </h2>
 
           <p className="text-slate-600 text-sm font-inter font-normal leading-relaxed">
             {lang === 'KA'
               ? 'AVA არის ქართული მაღალი საიუველირო ბრენდი, რომელიც სპეციალიზებულია ნატურალური ძვირფასი ქვებითა და ხელით მოხატული მინანქრით დამზადებულ სამკაულებზე. თითოეული მოდელი არის ექსკლუზიური, უნაკლო ბრწყინვალებისა და მაღალი ოსტატობის სინთეზი.'
+              : lang === 'RU'
+              ? 'AVA — грузинский ювелирный дом, создающий изысканные украшения из натуральных драгоценных камней и серебра. Каждое изделие — это синтез безупречного сияния, сертифицированного качества и ручного мастерства.'
               : 'AVA is a Georgian high jewelry house specializing in certified natural gemstones and hand-painted enamel creations. Each creation embodies flawless brilliance, certified quality, and bespoke craftsmanship.'}
           </p>
 
@@ -54,14 +60,14 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ lang }) => {
             <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-1">
               <span className="text-2xl font-montserrat font-light text-sky-600 block">100%</span>
               <span className="text-xs font-montserrat font-normal text-slate-900 block">
-                {lang === 'KA' ? 'ნატურალური ქვები' : 'Natural Gemstones'}
+                {lang === 'KA' ? 'ნატურალური ქვები' : lang === 'RU' ? 'Натуральные камни' : 'Natural Gemstones'}
               </span>
             </div>
 
             <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-1">
               <span className="text-2xl font-montserrat font-light text-sky-600 block">GIA & IGI</span>
               <span className="text-xs font-montserrat font-normal text-slate-900 block">
-                {lang === 'KA' ? 'ხარისხის გარანტია' : 'Quality Certification'}
+                {lang === 'KA' ? 'ხარისხის გარანტია' : lang === 'RU' ? 'Гарантия качества' : 'Quality Certification'}
               </span>
             </div>
           </div>

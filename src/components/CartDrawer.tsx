@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Gift, CheckCircle2, Sparkles, CreditCard, Truck } from 'lucide-react';
 import { Language, CartItem } from '../types';
+import { getProductTitle } from '../utils/translations';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -84,7 +85,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               <div className="flex items-center gap-2">
                 <ShoppingBag className="w-5 h-5 text-sky-600" />
                 <h2 className="text-lg font-montserrat font-normal text-slate-900">
-                  {lang === 'KA' ? 'საყიდლების კალათა' : 'Shopping Bag'}
+                  {lang === 'KA' ? 'საყიდლების კალათა' : lang === 'RU' ? 'Корзина покупок' : 'Shopping Bag'}
                 </h2>
                 <span className="text-xs bg-sky-100 px-2.5 py-0.5 rounded-full text-sky-800 font-montserrat font-medium border border-sky-200">
                   {cartItems.length}
@@ -268,13 +269,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <div className="h-full flex flex-col items-center justify-center text-center space-y-4 text-slate-400">
                     <ShoppingBag className="w-12 h-12 text-slate-400 stroke-[1.5]" />
                     <p className="text-sm font-light text-slate-600">
-                      {lang === 'KA' ? 'თქვენი კალათა ცარიელია' : 'Your shopping bag is currently empty'}
+                      {lang === 'KA' ? 'თქვენი კალათა ცარიელია' : lang === 'RU' ? 'Ваша корзина пуста' : 'Your shopping bag is currently empty'}
                     </p>
                     <button
                       onClick={onClose}
                       className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-sky-200 font-bold text-xs uppercase tracking-wider rounded-full transition-all shadow-md"
                     >
-                      {lang === 'KA' ? 'კოლექციის დათვალიერება' : 'Explore Collections'}
+                      {lang === 'KA' ? 'კოლექციის დათვალიერება' : lang === 'RU' ? 'Смотреть коллекцию' : 'Explore Collections'}
                     </button>
                   </div>
                 ) : (
@@ -287,14 +288,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                         >
                           <img
                             src={item.product.images.primary}
-                            alt={item.product.titleEN}
+                            alt={getProductTitle(item.product, lang)}
                             referrerPolicy="no-referrer"
                             className="w-20 h-20 object-cover rounded-xl shrink-0 border border-slate-200"
                           />
 
                           <div className="flex-1 space-y-1">
                             <h4 className="text-xs font-montserrat font-normal text-slate-900 line-clamp-1">
-                              {lang === 'KA' ? item.product.titleKA : item.product.titleEN}
+                              {getProductTitle(item.product, lang)}
                             </h4>
 
                             <span className="text-[10px] text-sky-700 font-montserrat font-light tracking-wider uppercase block">
@@ -303,7 +304,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
                             {item.selectedRingSize && (
                               <span className="text-[10px] font-inter font-normal text-slate-500 block">
-                                {lang === 'KA' ? 'ზომა:' : 'Size:'} {item.selectedRingSize}
+                                {lang === 'KA' ? 'ზომა:' : lang === 'RU' ? 'Размер:' : 'Size:'} {item.selectedRingSize}
                               </span>
                             )}
 
@@ -356,10 +357,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                         <Gift className="w-4 h-4 text-sky-600 shrink-0" />
                         <div>
                           <span className="font-semibold text-slate-900 block">
-                            {lang === 'KA' ? 'AVA-ს ხავერდის სასაჩუქრე შეფუთვა' : 'Signature Velvet Gift Box'}
+                            {lang === 'KA' ? 'AVA-ს ხავერდის სასაჩუქრე შეფუთვა' : lang === 'RU' ? 'Фирменная бархатная упаковка AVA' : 'Signature Velvet Gift Box'}
                           </span>
                           <span className="text-[10px] text-slate-500">
-                            {lang === 'KA' ? 'მუქი ლურჯი ხავერდის ყუთი & ჩანთა (უფასო)' : 'Complimentary Dark Blue Velvet Box & Ribbon'}
+                            {lang === 'KA' ? 'მუქი ლურჯი ხავერდის ყუთი & ჩანთა (უფასო)' : lang === 'RU' ? 'Темно-синяя бархатная шкатулка (бесплатно)' : 'Complimentary Dark Blue Velvet Box & Ribbon'}
                           </span>
                         </div>
                       </div>
@@ -378,14 +379,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                         type="text"
                         value={promoCode}
                         onChange={(e) => setPromoCode(e.target.value)}
-                        placeholder={lang === 'KA' ? 'პრომო კოდი (მაგ: AVA2026)' : 'Promo Code (e.g. AVA2026)'}
+                        placeholder={lang === 'KA' ? 'პრომო კოდი (მაგ: AVA2026)' : lang === 'RU' ? 'Промокод (напр: AVA2026)' : 'Promo Code (e.g. AVA2026)'}
                         className="flex-1 px-3 py-2 bg-[#FAF9F5] border border-slate-200 rounded-xl text-xs text-slate-900 uppercase placeholder-slate-400 focus:outline-none focus:border-sky-400"
                       />
                       <button
                         onClick={handleApplyPromo}
                         className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-sky-200 font-bold text-xs rounded-xl shadow-sm"
                       >
-                        {discountApplied ? '✓ 10%' : (lang === 'KA' ? 'გამოყენება' : 'Apply')}
+                        {discountApplied ? '✓ 10%' : (lang === 'KA' ? 'გამოყენება' : lang === 'RU' ? 'Применить' : 'Apply')}
                       </button>
                     </div>
                   </>
@@ -399,26 +400,26 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 
                 <div className="space-y-1.5 text-xs">
                   <div className="flex justify-between text-slate-600">
-                    <span>{lang === 'KA' ? 'ჯამი:' : 'Subtotal:'}</span>
+                    <span>{lang === 'KA' ? 'ჯამი:' : lang === 'RU' ? 'Итого товары:' : 'Subtotal:'}</span>
                     <span>₾{subtotalGEL.toLocaleString()}</span>
                   </div>
 
                   {discountApplied && (
                     <div className="flex justify-between text-emerald-600 font-semibold">
-                      <span>{lang === 'KA' ? 'პრომო ფასდაკლება 10%:' : 'Discount (10%):'}</span>
+                      <span>{lang === 'KA' ? 'პრომო ფასდაკლება 10%:' : lang === 'RU' ? 'Скидка 10%:' : 'Discount (10%):'}</span>
                       <span>-₾{discountAmountGEL.toLocaleString()}</span>
                     </div>
                   )}
 
                   <div className="flex justify-between text-slate-600">
-                    <span>{lang === 'KA' ? 'დაზღვეული მიწოდება:' : 'Insured Courier Delivery:'}</span>
+                    <span>{lang === 'KA' ? 'დაზღვეული მიწოდება:' : lang === 'RU' ? 'Доставка:' : 'Insured Courier Delivery:'}</span>
                     <span className="text-emerald-600 font-bold">
-                      {lang === 'KA' ? 'უფასო (FREE)' : 'FREE'}
+                      {lang === 'KA' ? 'უფასო (FREE)' : lang === 'RU' ? 'Бесплатно (FREE)' : 'FREE'}
                     </span>
                   </div>
 
                   <div className="flex justify-between text-base font-montserrat font-normal text-slate-900 pt-2 border-t border-slate-200">
-                    <span>{lang === 'KA' ? 'სულ გადასახდელი:' : 'Total Amount:'}</span>
+                    <span>{lang === 'KA' ? 'სულ გადასახდელი:' : lang === 'RU' ? 'Всего к оплате:' : 'Total Amount:'}</span>
                     <span>₾{finalTotalGEL.toLocaleString()}</span>
                   </div>
                 </div>
@@ -427,13 +428,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   onClick={() => setShowCheckout(true)}
                   className="w-full py-4 bg-slate-900 hover:bg-slate-800 text-sky-200 font-montserrat font-medium text-xs uppercase tracking-[0.1em] rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 group cursor-pointer"
                 >
-                  <span>{lang === 'KA' ? 'შეკვეთის გაფორმება' : 'Proceed to Checkout'}</span>
+                  <span>{lang === 'KA' ? 'შეკვეთის გაფორმება' : lang === 'RU' ? 'Оформить заказ' : 'Proceed to Checkout'}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <div className="flex items-center justify-center gap-1.5 text-[10px] text-slate-500">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>{lang === 'KA' ? 'ძვირფასი ქვების სერტიფიკატი & საგარანტიო ტალონი' : 'Gemstone Certificate & Warranty Included'}</span>
+                  <span>{lang === 'KA' ? 'ძვირფასი ქვების სერტიფიკატი & საგარანტიო ტალონი' : lang === 'RU' ? 'Сертификат подлинности и гарантийный талон' : 'Gemstone Certificate & Warranty Included'}</span>
                 </div>
 
               </div>

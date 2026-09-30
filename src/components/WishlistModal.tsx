@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Heart, ShoppingBag, Trash2 } from 'lucide-react';
 import { Language, Product } from '../types';
+import { getProductTitle } from '../utils/translations';
 
 interface WishlistModalProps {
   isOpen: boolean;
@@ -46,7 +47,7 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
           <div className="flex items-center justify-between pb-4 border-b border-slate-200">
             <div className="flex items-center gap-2 text-rose-500 font-serif font-bold text-xl">
               <Heart className="w-5 h-5 fill-current" />
-              <span>{lang === 'KA' ? 'სურვილების სია' : 'Saved Favorites'}</span>
+              <span>{lang === 'KA' ? 'სურვილების სია' : lang === 'RU' ? 'Список желаний' : 'Saved Favorites'}</span>
               <span className="text-xs bg-rose-50 px-2.5 py-0.5 rounded-full text-rose-700 font-sans border border-rose-200">
                 {wishlistItems.length}
               </span>
@@ -66,7 +67,7 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
               <div className="text-center py-12 space-y-3 text-slate-500">
                 <Heart className="w-12 h-12 mx-auto stroke-[1.2] text-slate-400" />
                 <p className="text-sm">
-                  {lang === 'KA' ? 'ჯერ არ გაქვთ შენახული სამკაულები' : 'No favorites saved yet'}
+                  {lang === 'KA' ? 'ჯერ არ გაქვთ შენახული სამკაულები' : lang === 'RU' ? 'В списке пока нет сохраненных изделий' : 'No favorites saved yet'}
                 </p>
               </div>
             ) : (
@@ -84,13 +85,13 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
                   >
                     <img
                       src={product.images.primary}
-                      alt={product.titleEN}
+                      alt={getProductTitle(product, lang)}
                       referrerPolicy="no-referrer"
                       className="w-14 h-14 object-cover rounded-xl shrink-0"
                     />
                     <div className="overflow-hidden">
                       <h4 className="text-xs font-serif font-bold text-slate-900 line-clamp-1">
-                        {lang === 'KA' ? product.titleKA : product.titleEN}
+                        {getProductTitle(product, lang)}
                       </h4>
                       <span className="text-[10px] text-sky-600 font-semibold block">
                         {product.purity}
@@ -107,7 +108,7 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
                       className="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-sky-300 font-bold text-xs rounded-xl flex items-center gap-1 cursor-pointer"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
-                      <span>{lang === 'KA' ? 'კალათაში' : 'Add'}</span>
+                      <span>{lang === 'KA' ? 'კალათაში' : lang === 'RU' ? 'В корзину' : 'Add'}</span>
                     </button>
 
                     <button

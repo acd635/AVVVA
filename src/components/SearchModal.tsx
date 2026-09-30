@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, X, Sparkles, Gem } from 'lucide-react';
 import { Language, Product } from '../types';
+import { getProductTitle } from '../utils/translations';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -29,6 +30,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         return (
           p.titleKA.toLowerCase().includes(q) ||
           p.titleEN.toLowerCase().includes(q) ||
+          (p.titleRU && p.titleRU.toLowerCase().includes(q)) ||
+          getProductTitle(p, 'RU').toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
           p.mainGemstone.toLowerCase().includes(q) ||
           p.metalType.toLowerCase().includes(q)
@@ -36,11 +39,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       });
 
   const suggestions = [
-    { labelKA: 'ვარდისფერი მინანქარი (Rose Enamel)', labelEN: 'Rose Enamel' },
-    { labelKA: 'მზის კულონი (Sunburst)', labelEN: 'Sunburst Pendant' },
-    { labelKA: 'ბრილიანტის ბეჭდი (Diamond Ring)', labelEN: 'Diamond Ring' },
-    { labelKA: 'ზურმუხტი (Emerald)', labelEN: 'Emerald' },
-    { labelKA: 'მარგალიტი (Baroque Pearl)', labelEN: 'Baroque Pearl' },
+    { labelKA: 'ვარდისფერი მინანქარი (Rose Enamel)', labelEN: 'Rose Enamel', labelRU: 'Розовая эмаль' },
+    { labelKA: 'მზის კულონი (Sunburst)', labelEN: 'Sunburst Pendant', labelRU: 'Кулон Солнце' },
+    { labelKA: 'ბრილიანტის ბეჭედი (Diamond Ring)', labelEN: 'Diamond Ring', labelRU: 'Кольцо с бриллиантом' },
+    { labelKA: 'ზურმუხტი (Emerald)', labelEN: 'Emerald', labelRU: 'Изумруд' },
+    { labelKA: 'მარგალიტი (Baroque Pearl)', labelEN: 'Baroque Pearl', labelRU: 'Барочный жемчуг' },
   ];
 
   return (
@@ -69,7 +72,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={lang === 'KA' ? 'მოძებნეთ სამკაული, ძვირფასი თვალი, ქვები...' : 'Search AVA jewelry, precious gemstones...'}
+              placeholder={lang === 'KA' ? 'მოძებნეთ სამკაული, ძვირფასი თვალი, ქვები...' : lang === 'RU' ? 'Поиск украшений, камней, изделий...' : 'Search AVA jewelry, precious gemstones...'}
               className="w-full pl-12 pr-10 py-3.5 bg-[#FAF9F5] border border-slate-200 rounded-2xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-400"
             />
             {query && (
@@ -86,20 +89,23 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           {query.trim() === '' && (
             <div className="space-y-2">
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
-                {lang === 'KA' ? 'პოპულარული ძიება:' : 'Popular Searches:'}
+                {lang === 'KA' ? 'პოპულარული ძიება:' : lang === 'RU' ? 'Популярные запросы:' : 'Popular Searches:'}
               </span>
 
               <div className="flex flex-wrap gap-2">
-                {suggestions.map((item, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setQuery(lang === 'KA' ? item.labelKA : item.labelEN)}
-                    className="px-3 py-1.5 bg-[#FAF9F5] hover:bg-sky-50 border border-slate-200 rounded-full text-xs text-sky-700 transition-colors flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <Sparkles className="w-3 h-3 text-sky-600" />
-                    <span>{lang === 'KA' ? item.labelKA : item.labelEN}</span>
-                  </button>
-                ))}
+                {suggestions.map((item, idx) => {
+                  const label = lang === 'KA' ? item.labelKA : lang === 'RU' ? item.labelRU : item.labelEN;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => setQuery(label)}
+                      className="px-3 py-1.5 bg-[#FAF9F5] hover:bg-sky-50 border border-slate-200 rounded-full text-xs text-sky-700 transition-colors flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <Sparkles className="w-3 h-3 text-sky-600" />
+                      <span>{label}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -109,7 +115,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             <div className="max-h-80 overflow-y-auto space-y-2 pt-2">
               {filtered.length === 0 ? (
                 <p className="text-center text-xs text-slate-500 py-6">
-                  {lang === 'KA' ? 'შედეგი ვერ მოიძებნა' : 'No matching AVA jewelry found'}
+                  {lang === 'KA' ? 'შედეგი ვერ მოიძებნა' : lang === 'RU' ? 'Ничего не найдено' : 'No matching AVA jewelry found'}
                 </p>
               ) : (
                 filtered.map((item) => (
@@ -124,13 +130,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     <div className="flex items-center gap-3">
                       <img
                         src={item.images.primary}
-                        alt={item.titleEN}
+                        alt={getProductTitle(item, lang)}
                         referrerPolicy="no-referrer"
                         className="w-12 h-12 object-cover rounded-lg"
                       />
                       <div>
                         <h4 className="text-xs font-serif font-bold text-slate-900">
-                          {lang === 'KA' ? item.titleKA : item.titleEN}
+                          {getProductTitle(item, lang)}
                         </h4>
                         <span className="text-[10px] text-sky-600 font-semibold block">
                           {item.purity}

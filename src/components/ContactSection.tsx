@@ -16,7 +16,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
           {/* Left Column: Large SVG Logo directly on section background */}
           <div className="lg:col-span-5 flex items-center justify-center p-4 lg:p-8">
             <img
-              src="https://i.postimg.cc/8kZVcMf9/AVA-BLUE-SVG.png"
+              src="https://i.postimg.cc/hvnyh03n/AVA-BLUE-SVG.png"
               alt="AVA JEWELRY"
               referrerPolicy="no-referrer"
               className="w-full max-w-xs sm:max-w-md h-auto object-contain hover:scale-105 transition-transform duration-500"
@@ -32,6 +32,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
               <p className="text-xs sm:text-sm font-inter text-slate-600 font-normal leading-relaxed max-w-xl">
                 {lang === 'KA'
                   ? 'გვეწვიეთ ჩვენს შოურუმში ინდივიდუალური კონსულტაციისთვის ან დაგვიკავშირდით სოციალური ქსელებისა და ტელეფონის მეშვეობით.'
+                  : lang === 'RU'
+                  ? 'Посетите наш флагманский шоурум в Тбилиси для индивидуальной консультации или свяжитесь с нами по телефону и в соцсетях.'
                   : 'Visit our flagship Tbilisi showroom for a private consultation or reach out to us via phone, email, and social networks.'}
               </p>
             </div>
@@ -51,10 +53,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
                 </div>
                 <div>
                   <span className="text-[10px] font-montserrat font-light uppercase tracking-wider text-sky-700 block mb-0.5">
-                    {lang === 'KA' ? 'შოურუმი' : 'Showroom'}
+                    {lang === 'KA' ? 'შოურუმი' : lang === 'RU' ? 'Шоурум' : 'Showroom'}
                   </span>
                   <span className="font-normal text-slate-900 group-hover:text-sky-600 transition-colors block">
-                    {lang === 'KA' ? 'თბილისი | სიონის.ქ 8' : 'Tbilisi | 8 Sioni St.'}
+                    {lang === 'KA' ? 'თბილისი | სიონის.ქ 8' : lang === 'RU' ? 'Тбилиси | ул. Сиони 8' : 'Tbilisi | 8 Sioni St.'}
                   </span>
                 </div>
               </a>
@@ -66,7 +68,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
                 </div>
                 <div>
                   <span className="text-[10px] font-montserrat font-light uppercase tracking-wider text-sky-700 block mb-0.5">
-                    {lang === 'KA' ? 'ტელეფონის ნომერი' : 'Phone Number'}
+                    {lang === 'KA' ? 'ტელეფონის ნომერი' : lang === 'RU' ? 'Телефон' : 'Phone Number'}
                   </span>
                   <a href="tel:+995322000000" className="font-normal text-slate-900 hover:text-sky-600 transition-colors block">
                     +995 32 200 00 00
@@ -81,7 +83,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
                 </div>
                 <div>
                   <span className="text-[10px] font-montserrat font-light uppercase tracking-wider text-sky-700 block mb-0.5">
-                    {lang === 'KA' ? 'ელ-ფოსტა' : 'Email Address'}
+                    {lang === 'KA' ? 'ელ-ფოსტა' : lang === 'RU' ? 'Эл. почта' : 'Email Address'}
                   </span>
                   <a href="mailto:info@avajewelry.ge" className="font-normal text-slate-900 hover:text-sky-600 transition-colors block">
                     info@avajewelry.ge
@@ -96,10 +98,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
                 </div>
                 <div>
                   <span className="text-[10px] font-montserrat font-light uppercase tracking-wider text-sky-700 block mb-0.5">
-                    {lang === 'KA' ? 'სამუშაო საათები' : 'Opening Hours'}
+                    {lang === 'KA' ? 'სამუშაო საათები' : lang === 'RU' ? 'Часы работы' : 'Opening Hours'}
                   </span>
                   <span className="font-normal text-slate-900 block">
-                    {lang === 'KA' ? 'ორშ - შაბ: 11:00 - 20:00' : 'Mon - Sat: 11:00 - 20:00'}
+                    {lang === 'KA' ? 'ორშ - შაბ: 11:00 - 20:00' : lang === 'RU' ? 'Пн - Сб: 11:00 - 20:00' : 'Mon - Sat: 11:00 - 20:00'}
                   </span>
                 </div>
               </div>
@@ -110,7 +112,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
             <div className="pt-3 border-t border-slate-200/80 grid grid-cols-2 gap-3">
               {/* Facebook Link */}
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/profile.php?id=61594816206505"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white hover:bg-sky-50 text-slate-800 hover:text-sky-700 border border-slate-200 rounded-full text-xs font-montserrat font-medium transition-all shadow-sm group"
@@ -122,7 +124,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
 
               {/* Instagram Link */}
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/ava.com.ge?stkn=MTE3ZHNqc3Q3cm90cA%3D%3D&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white hover:bg-rose-50 text-slate-800 hover:text-rose-600 border border-slate-200 rounded-full text-xs font-montserrat font-medium transition-all shadow-sm group"

@@ -1,4 +1,4 @@
-export type Language = 'KA' | 'EN';
+export type Language = 'KA' | 'EN' | 'RU';
 
 export type Category = 'all' | 'rings' | 'necklaces' | 'earrings' | 'bracelets' | 'pendants' | 'sets' | 'hats' | 'other';
 
@@ -10,6 +10,7 @@ export interface Product {
   id: string;
   titleKA: string;
   titleEN: string;
+  titleRU?: string;
   category: Category;
   metalType: MetalType;
   mainGemstone: GemstoneType;
@@ -29,6 +30,7 @@ export interface Product {
   };
   descriptionKA: string;
   descriptionEN: string;
+  descriptionRU?: string;
   specifications: {
     weightGrams: string;
     gemstoneDetails: string;

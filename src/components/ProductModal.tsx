@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Sparkles, ShoppingBag, Heart, ShieldCheck, Check, Share2, Award, Gem, FileText, Truck } from 'lucide-react';
 import { Language, Product } from '../types';
+import { getProductTitle, getProductDescription } from '../utils/translations';
 
 interface ProductModalProps {
   product: Product | null;
@@ -103,7 +104,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               <div className="bg-[#FAF9F5] p-3 rounded-lg border border-slate-200 flex items-center gap-2.5 shadow-sm mt-auto">
                 <Truck className="w-4 h-4 text-sky-600 shrink-0" />
                 <span className="text-xs font-montserrat font-medium text-slate-800">
-                  {lang === 'KA' ? 'უფასო მიწოდება თბილისის მასშტაბით' : 'Free delivery within Tbilisi'}
+                  {lang === 'KA' ? 'უფასო მიწოდება თბილისის მასშტაბით' : lang === 'RU' ? 'Бесплатная доставка по Тбилиси' : 'Free delivery within Tbilisi'}
                 </span>
               </div>
 
@@ -117,7 +118,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 {/* Title */}
                 <div>
                   <h2 className="text-xl sm:text-2xl font-montserrat font-normal text-slate-900 pr-6">
-                    {lang === 'KA' ? product.titleKA : product.titleEN}
+                    {getProductTitle(product, lang)}
                   </h2>
                 </div>
 
@@ -130,20 +131,20 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
                 {/* Description */}
                 <p className="text-xs font-inter font-normal text-slate-600 leading-relaxed">
-                  {lang === 'KA' ? product.descriptionKA : product.descriptionEN}
+                  {getProductDescription(product, lang)}
                 </p>
 
                 {/* GIA / Authenticity Spec Grid */}
                 <div className="bg-[#FAF9F5] p-3 rounded-lg border border-slate-200 space-y-2">
                   <span className="text-[11px] font-montserrat font-medium text-sky-700 uppercase tracking-[0.08em] flex items-center gap-1.5">
                     <Award className="w-3.5 h-3.5 text-sky-600" />
-                    {lang === 'KA' ? 'სერტიფიკატის დეტალები' : 'AUTHENTICITY CERTIFICATE'}
+                    {lang === 'KA' ? 'სერტიფიკატის დეტალები' : lang === 'RU' ? 'СЕРТИФИКАТ ПОДЛИННОСТИ' : 'AUTHENTICITY CERTIFICATE'}
                   </span>
 
                   <div className="grid grid-cols-2 gap-2 text-[11px] font-inter font-normal">
                     <div>
                       <span className="text-slate-500 text-[9px] font-montserrat font-light uppercase tracking-wider block">
-                        {lang === 'KA' ? 'თვლების წონა' : 'Carat / Gemstone'}
+                        {lang === 'KA' ? 'თვლების წონა' : lang === 'RU' ? 'Вставка / Камень' : 'Carat / Gemstone'}
                       </span>
                       <span className="font-medium text-slate-900">
                         {product.specifications.gemstoneDetails}
@@ -152,7 +153,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
                     <div>
                       <span className="text-slate-500 text-[9px] font-montserrat font-light uppercase tracking-wider block">
-                        {lang === 'KA' ? 'ძვირფასი ქვები / ხარისხი' : 'Gemstone Quality'}
+                        {lang === 'KA' ? 'ძვირფასი ქვები / ხარისხი' : lang === 'RU' ? 'Качество / Проба' : 'Gemstone Quality'}
                       </span>
                       <span className="font-medium text-slate-900">
                         {product.purity}
@@ -161,7 +162,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
                     <div>
                       <span className="text-slate-500 text-[9px] uppercase block">
-                        {lang === 'KA' ? 'სერტიფიკატის #' : 'Certificate #'}
+                        {lang === 'KA' ? 'სერტიფიკატის #' : lang === 'RU' ? 'Сертификат #' : 'Certificate #'}
                       </span>
                       <span className="font-mono text-sky-700 font-bold">
                         {product.specifications.certificateNumber}
@@ -170,7 +171,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
                     <div>
                       <span className="text-slate-500 text-[9px] uppercase block">
-                        {lang === 'KA' ? 'წონა (გრამი)' : 'Total Weight'}
+                        {lang === 'KA' ? 'წონა (გრამი)' : lang === 'RU' ? 'Вес (граммы)' : 'Total Weight'}
                       </span>
                       <span className="font-semibold text-slate-900">
                         {product.specifications.weightGrams}
@@ -184,10 +185,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-medium text-slate-800">
-                        {lang === 'KA' ? 'აირჩიეთ ზომა:' : 'Select Size:'}
+                        {lang === 'KA' ? 'აირჩიეთ ზომა:' : lang === 'RU' ? 'Выберите размер:' : 'Select Size:'}
                       </span>
                       <span className="text-sky-600 text-[10px] underline cursor-pointer">
-                        {lang === 'KA' ? 'ზომების ცხრილი' : 'Size Guide'}
+                        {lang === 'KA' ? 'ზომების ცხრილი' : lang === 'RU' ? 'Таблица размеров' : 'Size Guide'}
                       </span>
                     </div>
 
@@ -212,14 +213,14 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 {/* Custom Engraving Option */}
                 <div className="space-y-1">
                   <label className="text-[11px] font-medium text-slate-700 block">
-                    {lang === 'KA' ? 'უფასო პერსონალური გრავიურა (არასავალდებულო):' : 'Free Custom Engraving (Optional):'}
+                    {lang === 'KA' ? 'უფასო პერსონალური გრავიურა (არასავალდებულო):' : lang === 'RU' ? 'Бесплатная гравировка (по желанию):' : 'Free Custom Engraving (Optional):'}
                   </label>
                   <input
                     type="text"
                     maxLength={25}
                     value={engravingText}
                     onChange={(e) => setEngravingText(e.target.value)}
-                    placeholder={lang === 'KA' ? 'მაგ: A & V • 2026' : 'e.g. Forever Yours • 2026'}
+                    placeholder={lang === 'KA' ? 'მაგ: A & V • 2026' : lang === 'RU' ? 'напр: A & V • 2026' : 'e.g. Forever Yours • 2026'}
                     className="w-full px-3 py-1.5 bg-[#FAF9F5] border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-400 transition-colors"
                   />
                 </div>
@@ -257,12 +258,12 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                     {addedSuccess ? (
                       <>
                         <Check className="w-4 h-4 text-emerald-400" />
-                        <span>{lang === 'KA' ? 'დაემატა კალათაში!' : 'Added to Bag!'}</span>
+                        <span>{lang === 'KA' ? 'დაემატა კალათაში!' : lang === 'RU' ? 'Добавлено в корзину!' : 'Added to Bag!'}</span>
                       </>
                     ) : (
                       <>
                         <ShoppingBag className="w-4 h-4" />
-                        <span>{lang === 'KA' ? 'კალათაში დამატება' : 'Add to Shopping Bag'}</span>
+                        <span>{lang === 'KA' ? 'კალათაში დამატება' : lang === 'RU' ? 'В корзину' : 'Add to Shopping Bag'}</span>
                       </>
                     )}
                   </button>
@@ -283,10 +284,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 <div className="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
                   <span className="flex items-center gap-1">
                     <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                    {lang === 'KA' ? '100% უსაფრთხო შეკვეთა' : '100% Secure Insured Order'}
+                    {lang === 'KA' ? '100% უსაფრთხო შეკვეთა' : lang === 'RU' ? '100% безопасный заказ' : '100% Secure Insured Order'}
                   </span>
                   <span>
-                    {lang === 'KA' ? 'მიწოდება 24 საათში' : '24h Delivery in Georgia'}
+                    {lang === 'KA' ? 'მიწოდება 24 საათში' : lang === 'RU' ? 'Доставка за 24 часа' : '24h Delivery in Georgia'}
                   </span>
                 </div>
               </div>

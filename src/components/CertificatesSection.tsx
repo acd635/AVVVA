@@ -12,29 +12,37 @@ export const CertificatesSection: React.FC<CertificatesSectionProps> = ({ lang }
       icon: Scale,
       titleKA: 'ზუსტი წონა & ძვირფასი ქვები',
       titleEN: 'Authentic Weight & Gemstones',
+      titleRU: 'Точный вес и подлинные камни',
       descKA: 'ყველა სამკაულს ახლავს ოფიციალური ხარისხის სერტიფიკატი და გრამული წონის დოკუმენტაცია.',
       descEN: 'Every piece is accompanied by an official quality certificate and exact scale weight documentation.',
+      descRU: 'Каждое изделие сопровождается официальным сертификатом качества и точным весом.',
     },
     {
       icon: Award,
       titleKA: 'სერტიფიცირებული ბრილიანტები',
       titleEN: 'GIA & IGI Certified Diamonds',
+      titleRU: 'Сертифицированные камни',
       descKA: '100% ნატურალური, VVS1 სუფთა ბრილიანტები და ძვირფასი ქვები გლობალური სერტიფიკატით.',
       descEN: '100% natural, ethically sourced VVS1 diamonds and gemstones certified by GIA & IGI laboratories.',
+      descRU: '100% натуральные драгоценные камни высшей чистоты с международной сертификацией.',
     },
     {
       icon: Sparkles,
       titleKA: 'ექსკლუზიური ხელნაკეთობა',
       titleEN: 'Bespoke Handcrafted Design',
+      titleRU: 'Эксклюзивная ручная работа',
       descKA: 'თითოეული მოდელი მზადდება ხელით თბილისის ატელიეში ოსტატი იუველირების მიერ.',
       descEN: 'Individually hand-carved and enameled by master artisans in our Tbilisi atelier.',
+      descRU: 'Каждое изделие создается вручную мастерами-ювелирами в Тбилисском ателье.',
     },
     {
       icon: Package,
       titleKA: 'სამეფო შეფუთვა',
       titleEN: 'Royal Velvet Gift Packaging',
+      titleRU: 'Фирменная бархатная упаковка',
       descKA: 'მოყვება AVA-ს მუქი ლურჯი ხავერდის ყუთი, აბრეშუმის ბაფთა და ემბოსირებული სასაჩუქრე ჩანთა.',
       descEN: 'Delivered in signature dark blue AVA velvet box with silk ribbon & embossed gift bag.',
+      descRU: 'Фирменная темно-синяя бархатная шкатулка AVA с шелковой лентой и подарочным пакетом.',
     },
   ];
 
@@ -45,7 +53,7 @@ export const CertificatesSection: React.FC<CertificatesSectionProps> = ({ lang }
         {/* Title */}
         <div className="text-center space-y-3 max-w-2xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-montserrat font-light tracking-[0.08em] text-slate-900">
-            {lang === 'KA' ? 'უნაკლო ხარისხი & ავთენტურობა' : 'Uncompromising Purity & Authenticity'}
+            {lang === 'KA' ? 'უნაკლო ხარისხი & ავთენტურობა' : lang === 'RU' ? 'Безупречное качество и подлинность' : 'Uncompromising Purity & Authenticity'}
           </h2>
         </div>
 
@@ -63,11 +71,11 @@ export const CertificatesSection: React.FC<CertificatesSectionProps> = ({ lang }
                 </div>
 
                 <h3 className="text-base font-montserrat font-normal text-slate-900">
-                  {lang === 'KA' ? item.titleKA : item.titleEN}
+                  {lang === 'KA' ? item.titleKA : lang === 'RU' ? item.titleRU : item.titleEN}
                 </h3>
 
                 <p className="text-xs text-slate-600 font-inter font-normal leading-relaxed">
-                  {lang === 'KA' ? item.descKA : item.descEN}
+                  {lang === 'KA' ? item.descKA : lang === 'RU' ? item.descRU : item.descEN}
                 </p>
               </div>
             );
