@@ -50,7 +50,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Main Product Image */}
         <img
           src={product.images.primary}
-          alt={lang === 'KA' ? product.titleKA : product.titleEN}
+          alt={getProductTitle(product, lang)}
           referrerPolicy="no-referrer"
           onError={(e) => {
             (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=1000';

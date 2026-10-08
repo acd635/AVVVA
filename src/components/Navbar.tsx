@@ -253,8 +253,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-white">
             <span>{t.tagline}</span>
-            <a href="tel:+995322000000" className="text-white hover:text-sky-300 transition-colors">
-              +995 32 200 00 00
+            <a href="tel:+995505558229" className="text-white hover:text-sky-300 transition-colors">
+              +995 505 558 229
             </a>
           </div>
         </div>

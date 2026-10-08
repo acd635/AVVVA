@@ -70,8 +70,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
                   <span className="text-[10px] font-montserrat font-light uppercase tracking-wider text-sky-700 block mb-0.5">
                     {lang === 'KA' ? 'ტელეფონის ნომერი' : lang === 'RU' ? 'Телефон' : 'Phone Number'}
                   </span>
-                  <a href="tel:+995322000000" className="font-normal text-slate-900 hover:text-sky-600 transition-colors block">
-                    +995 32 200 00 00
+                  <a href="tel:+995505558229" className="font-normal text-slate-900 hover:text-sky-600 transition-colors block">
+                    +995 505 558 229
                   </a>
                 </div>
               </div>

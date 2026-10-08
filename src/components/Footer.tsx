@@ -100,7 +100,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenAdmin }) => {
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-sky-600 shrink-0" />
-                <a href="tel:+995322000000" className="hover:text-slate-900">+995 32 200 00 00</a>
+                <a href="tel:+995505558229" className="hover:text-slate-900">+995 505 558 229</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-sky-600 shrink-0" />
