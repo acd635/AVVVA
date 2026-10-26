@@ -3,7 +3,6 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ProductCard } from './components/ProductCard';
 import { ProductModal } from './components/ProductModal';
-import { CertificatesSection } from './components/CertificatesSection';
 import { AboutSection } from './components/AboutSection';
 import { ContactSection } from './components/ContactSection';
 import { CartDrawer } from './components/CartDrawer';
@@ -465,9 +464,6 @@ export default function App() {
         </div>
 
       </section>
-
-      {/* Certificates & Authenticity Section */}
-      <CertificatesSection lang={lang} />
 
       {/* Brand Heritage Section */}
       <AboutSection lang={lang} />

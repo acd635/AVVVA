@@ -33,7 +33,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const t = {
     collections: lang === 'KA' ? 'კოლექციები' : lang === 'RU' ? 'Коллекции' : 'Collections',
-    certificates: lang === 'KA' ? 'სერტიფიკატები' : lang === 'RU' ? 'Сертификаты' : 'Certificates',
     about: lang === 'KA' ? 'ჩვენს შესახებ' : lang === 'RU' ? 'О бренде' : 'About AVA',
     contact: lang === 'KA' ? 'კონტაქტი' : lang === 'RU' ? 'Контакты' : 'Contact',
     tagline:
@@ -53,7 +52,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navItems = [
     { id: 'collections', label: t.collections },
-    { id: 'certificates', label: t.certificates },
     { id: 'about', label: t.about },
     { id: 'contact', label: t.contact },
   ];

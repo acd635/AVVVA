@@ -86,9 +86,9 @@ export const Footer: React.FC<FooterProps> = ({ lang, onOpenAdmin }) => {
               {lang === 'KA' ? 'სერვისები' : lang === 'RU' ? 'Сервисы' : 'Bespoke Services'}
             </h4>
             <ul className="space-y-2 text-xs font-inter font-normal text-slate-600">
-              <li><a href="#certificates" className="hover:text-slate-900 transition-colors">{lang === 'KA' ? 'GIA სერტიფიკაცია' : lang === 'RU' ? 'GIA Сертификация' : 'GIA Certificate Check'}</a></li>
-              <li><a href="#certificates" className="hover:text-slate-900 transition-colors">{lang === 'KA' ? 'სასაჩუქრე შეფუთვა' : lang === 'RU' ? 'Подарочная упаковка' : 'Velvet Gift Packaging'}</a></li>
-              <li><a href="#certificates" className="hover:text-slate-900 transition-colors">{lang === 'KA' ? 'უფასო მიწოდება' : lang === 'RU' ? 'Бесплатная доставка' : 'Insured Courier Delivery'}</a></li>
+              <li><a href="#about" className="hover:text-slate-900 transition-colors">{lang === 'KA' ? 'GIA სერტიფიკაცია' : lang === 'RU' ? 'GIA Сертификация' : 'GIA Certificate Check'}</a></li>
+              <li><a href="#contact" className="hover:text-slate-900 transition-colors">{lang === 'KA' ? 'სასაჩუქრე შეფუთვა' : lang === 'RU' ? 'Подарочная упаковка' : 'Velvet Gift Packaging'}</a></li>
+              <li><a href="#contact" className="hover:text-slate-900 transition-colors">{lang === 'KA' ? 'უფასო მიწოდება' : lang === 'RU' ? 'Бесплатная доставка' : 'Insured Courier Delivery'}</a></li>
             </ul>
           </div>
 
